@@ -30,15 +30,15 @@ public class StudentService {
 
     public Optional<Student> findStudentWithHighestGpa() {
         return studentRepository.findAll()
-                .stream()
-                .sorted(Comparator.comparing(Student::getGpa).reversed().thenComparing(Student::getName))
-                .findFirst();
+            .stream()
+            .max(Comparator.comparing(Student::getGpa)
+                .thenComparing(Student::getName, Comparator.naturalOrder()));
     }
 
     public String joinStudentNames() {
-        List<Student> students = studentRepository.findAll();
-        return students.stream()
-                .map(Student::getName)
-                .collect(Collectors.joining(", "));
+        return studentRepository.findAll()
+            .stream()
+            .map(Student::getName)
+            .collect(Collectors.joining(", "));
     }
 }
